@@ -6,15 +6,25 @@ baseurl: ""
 url: "https://jingresume.github.io"
 github_username: jingresume
 
+# Disqus comments (replace with your Disqus shortname)
+disqus_shortname: jingresume
+
+# Build settings
 markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-paginate
 
+# Pagination
 paginate: 5
 paginate_path: "/page/:num/"
 
+# Category pages
+permalink: /:categories/:title/
+
+# Sass
 sass:
   sass_dir: _sass
   style: compressed

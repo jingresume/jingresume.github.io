@@ -7,7 +7,19 @@ layout: default
         <p class="post-meta">
             <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
             {% if page.author %} • {{ page.author }}{% endif %}
+            {% if page.categories %} • 
+                {% for cat in page.categories %}
+                    <a href="/category/{{ cat }}/">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
+                {% endfor %}
+            {% endif %}
         </p>
+        {% if page.tags %}
+        <div class="post-tags">
+            {% for tag in page.tags %}
+                <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+        {% endif %}
     </header>
     
     <div class="post-content">
@@ -15,6 +27,19 @@ layout: default
     </div>
     
     <footer class="post-footer">
-        <a href="/">← Back to Home</a>
+        {% if page.categories %}
+        <div class="post-category">
+            <strong>Categories:</strong>
+            {% for cat in page.categories %}
+                <a href="/category/{{ cat }}/">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% include disqus.html %}
+        
+        <div class="back-link">
+            <a href="/">← Back to Home</a>
+        </div>
     </footer>
 </article>

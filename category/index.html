@@ -1,0 +1,16 @@
+---
+layout: default
+title: Categories
+---
+<div class="categories-page">
+    <h1>Categories</h1>
+    <ul class="category-list">
+        {% assign categories = site.categories | sort %}
+        {% for category in categories %}
+        <li>
+            <a href="/category/{{ category[0] }}/">{{ category[0] }}</a>
+            <span class="count">({{ category[1].size }})</span>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
