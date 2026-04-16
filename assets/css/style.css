@@ -627,6 +627,25 @@ body {
     margin-top: 50px;
 }
 
+.footer-stats {
+    margin-bottom: 10px;
+}
+
+.visitor-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.counter-icon {
+    font-size: 0.9rem;
+}
+
+.separator {
+    margin: 0 10px;
+    color: var(--border);
+}
+
 /* Prompt style */
 .prompt {
     color: var(--accent-green);

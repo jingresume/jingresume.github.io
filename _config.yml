@@ -1,10 +1,20 @@
 title: Jing Blog
 author: jingresume
 email: your.email@example.com
-description: Personal blog powered by Jekyll
+description: Personal blog about kernel, projects, DIY - featuring MiniMax邀请码, Claude Code邀请码, AI开发资源
 baseurl: ""
 url: "https://jingresume.github.io"
 github_username: jingresume
+
+# SEO & Keywords
+keywords:
+  - MiniMax邀请码
+  - Claude Code邀请码
+  - AI工具
+  - 开发资源
+  - Linux Kernel
+  - DIY项目
+  - 技术博客
 
 # Disqus comments (replace with your Disqus shortname)
 disqus_shortname: jingresume
@@ -18,7 +28,7 @@ plugins:
   - jekyll-paginate
 
 # Pagination
-paginate: 5
+paginate: 10
 paginate_path: "/page/:num/"
 
 # Sass

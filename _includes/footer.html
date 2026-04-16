@@ -1,5 +1,47 @@
 <footer class="site-footer">
     <div class="container">
+        <div class="footer-stats">
+            <span class="visitor-counter">
+                <span class="counter-icon">👁</span>
+                <span id="visitor-count">-</span> views
+            </span>
+            <span class="separator">|</span>
+        </div>
         <p>&copy; {{ site.time | date: "%Y" }} {{ site.author }}. Powered by <a href="https://jekyllrb.com">Jekyll</a>.</p>
     </div>
 </footer>
+
+<script>
+(function() {
+    const counterId = 'jingresume-github-io';
+    const cacheKey = 'visitor_count_cache';
+    const cacheTime = 5 * 60 * 1000; // 5 minutes
+
+    // Check cache first
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) {
+        const { count, time } = JSON.parse(cached);
+        if (Date.now() - time < cacheTime) {
+            document.getElementById('visitor-count').textContent = count.toLocaleString();
+            return;
+        }
+    }
+
+    // Fetch from countapi
+    fetch('https://api.countapi.xyz/hit/' + counterId)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('visitor-count').textContent = data.value.toLocaleString();
+            localStorage.setItem(cacheKey, JSON.stringify({
+                count: data.value,
+                time: Date.now()
+            }));
+        })
+        .catch(() => {
+            // Fallback to localStorage counter
+            let count = parseInt(localStorage.getItem('local_visit_count') || '0');
+            localStorage.setItem('local_visit_count', ++count);
+            document.getElementById('visitor-count').textContent = count.toLocaleString();
+        });
+})();
+</script>
