@@ -35,7 +35,7 @@ title: Home
                     {% if post.categories %}
                     <span class="separator">•</span>
                     {% for cat in post.categories %}
-                        <a href="/category/{{ cat }}/" class="category-link">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
+                        <a href="/category/#{{ cat | slugize }}" class="category-link">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
                     {% endfor %}
                     {% endif %}
                 </div>
