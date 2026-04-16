@@ -8,87 +8,144 @@ title: Home
         <p class="subtitle">// Notes on kernel, projects, DIY, and life</p>
     </header>
 
-    <div class="four-windows">
-        <!-- Kernel Window -->
-        <section class="window kernel-window">
-            <div class="window-header">
-                <span class="window-title">[#] kernel</span>
-                <span class="window-count">{{ site.categories.kernel | size }} posts</span>
-            </div>
-            <div class="window-content">
-                {% for post in site.categories.kernel %}
-                <article class="window-post">
-                    <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
-                    <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
-                </article>
-                {% else %}
-                <p class="window-empty">No posts yet</p>
-                {% endfor %}
-            </div>
-            <a href="/kernel/" class="window-more">view all →</a>
-        </section>
-
-        <!-- Projects Window -->
-        <section class="window projects-window">
-            <div class="window-header">
-                <span class="window-title">[~/] projects</span>
-                <span class="window-count">{{ site.categories.projects | size }} posts</span>
-            </div>
-            <div class="window-content">
-                {% for post in site.categories.projects %}
-                <article class="window-post">
-                    <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
-                    <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
-                </article>
-                {% else %}
-                <p class="window-empty">No posts yet</p>
-                {% endfor %}
-            </div>
-            <a href="/projects/" class="window-more">view all →</a>
-        </section>
-
-        <!-- DIY Window -->
-        <section class="window diy-window">
-            <div class="window-header">
-                <span class="window-title">[★] DIY</span>
-                <span class="window-count">{{ site.categories.diy | size }} posts</span>
-            </div>
-            <div class="window-content">
-                {% for post in site.categories.diy %}
-                <article class="window-post">
-                    <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
-                    <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
-                </article>
-                {% else %}
-                <p class="window-empty">No posts yet</p>
-                {% endfor %}
-            </div>
-            <a href="/diy/" class="window-more">view all →</a>
-        </section>
-
-        <!-- Gallery Window -->
-        <section class="window gallery-window" id="gallery-section">
-            <div class="window-header">
-                <span class="window-title">[$] gallery</span>
-                <span class="window-count">{{ site.data.gallery | size }} photos</span>
-            </div>
-            <div class="gallery-display">
-                <div class="gallery-current" onclick="openLightbox()">
-                    <img id="gallery-current-img" src="{{ site.data.gallery[0].thumb }}" alt="{{ site.data.gallery[0].alt }}">
-                    <div class="gallery-current-info">
-                        <span id="gallery-current-caption">{{ site.data.gallery[0].caption }}</span>
-                        <span id="gallery-current-location">{{ site.data.gallery[0].location }}</span>
+    <div class="home-layout">
+        <!-- Left Column: Gallery (Enlarged) -->
+        <div class="left-column">
+            <section class="window gallery-window" id="gallery-section">
+                <div class="window-header">
+                    <span class="window-title">[$] gallery</span>
+                    <span class="window-count">{{ site.data.gallery | size }} photos</span>
+                </div>
+                <div class="gallery-display">
+                    <div class="gallery-current" onclick="openLightbox()">
+                        <img id="gallery-current-img" src="{{ site.data.gallery[0].src }}" alt="{{ site.data.gallery[0].alt }}">
+                        <div class="gallery-current-info">
+                            <span id="gallery-current-caption">{{ site.data.gallery[0].caption }}</span>
+                            <span id="gallery-current-location">{{ site.data.gallery[0].location }}</span>
+                        </div>
+                    </div>
+                    <div class="gallery-nav">
+                        <button class="gallery-btn prev" onclick="prevPhoto()">‹</button>
+                        <span class="gallery-counter"><span id="gallery-index">1</span> / {{ site.data.gallery | size }}</span>
+                        <button class="gallery-btn next" onclick="nextPhoto()">›</button>
                     </div>
                 </div>
-                <div class="gallery-nav">
-                    <button class="gallery-btn prev" onclick="prevPhoto()">‹</button>
-                    <span class="gallery-counter"><span id="gallery-index">1</span> / {{ site.data.gallery | size }}</span>
-                    <button class="gallery-btn next" onclick="nextPhoto()">›</button>
+                <a href="/gallery.html" class="window-more">view all →</a>
+            </section>
+        </div>
+
+        <!-- Right Column: About + Recent Posts + Interests -->
+        <div class="right-column">
+            <!-- About Section -->
+            <section class="window about-window">
+                <div class="window-header">
+                    <span class="window-title">[@] about</span>
                 </div>
-            </div>
-            <a href="/gallery.html" class="window-more">view all →</a>
-        </section>
+                <div class="about-content">
+                    <div class="about-avatar">🧑‍💻</div>
+                    <div class="about-text">
+                        <p>你好！我是 <strong>{{ site.author }}</strong></p>
+                        <p>热爱技术，喜欢折腾 Linux Kernel、DIY 硬件和有趣的项目。</p>
+                        <div class="about-links">
+                            <a href="https://github.com/{{ site.github_username }}" target="_blank">GitHub</a>
+                            <a href="/about.html">More →</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Posts -->
+            <section class="window recent-window">
+                <div class="window-header">
+                    <span class="window-title">[+] recent</span>
+                </div>
+                <div class="window-content">
+                    {% for post in site.posts limit: 5 %}
+                    <article class="window-post">
+                        <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
+                        <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
+                    </article>
+                    {% endfor %}
+                </div>
+                <a href="/archive.html" class="window-more">view all →</a>
+            </section>
+
+            <!-- Interests -->
+            <section class="window interests-window">
+                <div class="window-header">
+                    <span class="window-title">[★] interests</span>
+                </div>
+                <div class="interests-content">
+                    <span class="interest-tag">Linux Kernel</span>
+                    <span class="interest-tag">System Programming</span>
+                    <span class="interest-tag">DIY Hardware</span>
+                    <span class="interest-tag">Photography</span>
+                    <span class="interest-tag">AI Tools</span>
+                    <span class="interest-tag">CLI Tools</span>
+                </div>
+            </section>
+        </div>
     </div>
+</div>
+
+<!-- Three Windows Below -->
+<div class="category-windows">
+    <!-- Kernel Window -->
+    <section class="window kernel-window">
+        <div class="window-header">
+            <span class="window-title">[#] kernel</span>
+            <span class="window-count">{{ site.categories.kernel | size }} posts</span>
+        </div>
+        <div class="window-content">
+            {% for post in site.categories.kernel %}
+            <article class="window-post">
+                <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
+                <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
+            </article>
+            {% else %}
+            <p class="window-empty">No posts yet</p>
+            {% endfor %}
+        </div>
+        <a href="/kernel/" class="window-more">view all →</a>
+    </section>
+
+    <!-- Projects Window -->
+    <section class="window projects-window">
+        <div class="window-header">
+            <span class="window-title">[~/] projects</span>
+            <span class="window-count">{{ site.categories.projects | size }} posts</span>
+        </div>
+        <div class="window-content">
+            {% for post in site.categories.projects %}
+            <article class="window-post">
+                <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
+                <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
+            </article>
+            {% else %}
+            <p class="window-empty">No posts yet</p>
+            {% endfor %}
+        </div>
+        <a href="/projects/" class="window-more">view all →</a>
+    </section>
+
+    <!-- DIY Window -->
+    <section class="window diy-window">
+        <div class="window-header">
+            <span class="window-title">[★] DIY</span>
+            <span class="window-count">{{ site.categories.diy | size }} posts</span>
+        </div>
+        <div class="window-content">
+            {% for post in site.categories.diy %}
+            <article class="window-post">
+                <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
+                <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
+            </article>
+            {% else %}
+            <p class="window-empty">No posts yet</p>
+            {% endfor %}
+        </div>
+        <a href="/diy/" class="window-more">view all →</a>
+    </section>
 </div>
 
 <!-- Lightbox Modal -->
