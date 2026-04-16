@@ -2,16 +2,19 @@
 layout: default
 ---
 <article class="post">
+    {% if page.cover %}
+    <div class="post-cover">
+        <img src="{{ page.cover }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
+
     <header class="post-header">
         <h1 class="post-title">{{ page.title }}</h1>
         <p class="post-meta">
             <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%Y-%m-%d" }}</time>
             {% if page.author %} • {{ page.author }}{% endif %}
-            {% if page.categories %} •
-                {% for cat in page.categories %}
-                    <a href="/category/#{{ cat | slugize }}">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
-                {% endfor %}
-            {% endif %}
+            {% if page.location %} • 📍 {{ page.location }}{% endif %}
+            {% if page.camera %} • 📷 {{ page.camera }}{% endif %}
         </p>
         {% if page.tags %}
         <div class="post-tags">
@@ -57,7 +60,7 @@ layout: default
         {% endif %}
 
         <div class="back-link">
-            <a href="/">← Back to Home</a>
+            <a href="/gallery.html">← Back to Gallery</a>
         </div>
     </footer>
 </article>

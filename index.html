@@ -9,28 +9,31 @@ title: Home
     </header>
 
     <div class="home-layout">
-        <!-- Left Column: Gallery (Enlarged) -->
+        <!-- Left Column: Gallery (Xiaohongshu Style) -->
         <div class="left-column">
             <section class="window gallery-window" id="gallery-section">
                 <div class="window-header">
                     <span class="window-title">[$] gallery</span>
-                    <span class="window-count">{{ site.data.gallery | size }} photos</span>
+                    <span class="window-count">{{ site.gallery | size }} posts</span>
                 </div>
-                <div class="gallery-display">
-                    <div class="gallery-current" onclick="openLightbox()">
-                        <img id="gallery-current-img" src="{{ site.data.gallery[0].src }}" alt="{{ site.data.gallery[0].alt }}">
-                        <div class="gallery-current-info">
-                            <span id="gallery-current-caption">{{ site.data.gallery[0].caption }}</span>
-                            <span id="gallery-current-location">{{ site.data.gallery[0].location }}</span>
+                <div class="gallery-feed">
+                    {% for post in site.gallery limit: 3 %}
+                    <a href="{{ post.url }}" class="gallery-card">
+                        <div class="gallery-card-image">
+                            <img src="{{ post.cover }}" alt="{{ post.title }}">
                         </div>
-                    </div>
-                    <div class="gallery-nav">
-                        <button class="gallery-btn prev" onclick="prevPhoto()">‹</button>
-                        <span class="gallery-counter"><span id="gallery-index">1</span> / {{ site.data.gallery | size }}</span>
-                        <button class="gallery-btn next" onclick="nextPhoto()">›</button>
-                    </div>
+                        <div class="gallery-card-content">
+                            <h3 class="gallery-card-title">{{ post.title }}</h3>
+                            <p class="gallery-card-excerpt">{{ post.excerpt | truncate: 60 }}</p>
+                            <div class="gallery-card-meta">
+                                <span>{{ post.location }}</span>
+                                <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
                 </div>
-                <a href="/gallery.html" class="window-more">view all →</a>
+                <a href="/gallery/" class="window-more">view all →</a>
             </section>
         </div>
 
@@ -146,21 +149,4 @@ title: Home
         </div>
         <a href="/diy/" class="window-more">view all →</a>
     </section>
-</div>
-
-<!-- Lightbox Modal -->
-<div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close" onclick="closeLightbox()">×</span>
-    <div class="lightbox-content" onclick="event.stopPropagation()">
-        <img id="lightbox-img" src="" alt="">
-        <div class="lightbox-info">
-            <h3 id="lightbox-caption"></h3>
-            <p id="lightbox-details"></p>
-            <a id="lightbox-post-link" href="#" class="lightbox-post-link">View related post →</a>
-        </div>
-    </div>
-    <div class="lightbox-nav">
-        <button class="lightbox-nav-btn prev" onclick="prevPhotoLightbox()">‹</button>
-        <button class="lightbox-nav-btn next" onclick="nextPhotoLightbox()">›</button>
-    </div>
 </div>
