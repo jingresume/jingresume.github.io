@@ -1,0 +1,20 @@
+---
+layout: default
+title: Home
+---
+<div class="home">
+    <h1>Welcome to My Blog</h1>
+    <p>This is a personal blog powered by Jekyll and GitHub Pages.</p>
+    
+    <h2>Recent Posts</h2>
+    <ul class="post-list">
+        {% for post in site.posts limit:5 %}
+        <li>
+            <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+            <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    <p><a href="/archive.html">View all posts →</a></p>
+</div>
