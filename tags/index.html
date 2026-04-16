@@ -1,0 +1,12 @@
+---
+layout: default
+title: Tags
+---
+<div class="tags-page">
+    <h1>Tags</h1>
+    <div class="tag-cloud">
+        {% for tag in site.tags %}
+        <a href="/tags/{{ tag[0] }}/" class="tag-item">{{ tag[0] }} <span class="count">{{ tag[1].size }}</span></a>
+        {% endfor %}
+    </div>
+</div>
