@@ -2,24 +2,92 @@
 layout: default
 title: Gallery
 ---
-<div class="gallery-page">
-    <h1><span class="prompt">~/</span> Photography</h1>
+<div class="gallery-page-full">
+    <h1><span class="prompt">[$]</span> Gallery</h1>
     <p class="gallery-desc">A collection of moments captured through my lens.</p>
-    
-    <div class="gallery-grid">
+
+    <div class="gallery-grid-full">
         {% for photo in site.data.gallery %}
-        <div class="gallery-item" onclick="openLightbox(this)">
-            <img src="{{ photo.src }}" alt="{{ photo.alt }}" loading="lazy">
-            {% if photo.caption %}
-            <div class="gallery-caption">{{ photo.caption }}</div>
-            {% endif %}
+        <div class="gallery-card" onclick="openGalleryLightbox({{ forloop.index0 }})">
+            <img src="{{ photo.thumb }}" alt="{{ photo.alt }}" loading="lazy">
+            <div class="gallery-card-overlay">
+                <span class="gallery-card-caption">{{ photo.caption }}</span>
+                <span class="gallery-card-location">{{ photo.location }}</span>
+            </div>
         </div>
         {% endfor %}
     </div>
 </div>
 
+<!-- Lightbox Modal -->
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close">×</span>
-    <img id="lightbox-img" src="" alt="">
-    <div id="lightbox-caption"></div>
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+        <img id="lightbox-img" src="" alt="">
+        <div class="lightbox-info">
+            <h3 id="lightbox-caption"></h3>
+            <p id="lightbox-details"></p>
+            <a id="lightbox-post-link" href="#" class="lightbox-post-link">View related post →</a>
+        </div>
+    </div>
+    <div class="lightbox-nav">
+        <button class="lightbox-nav-btn prev" onclick="prevPhotoLightbox()">‹</button>
+        <button class="lightbox-nav-btn next" onclick="nextPhotoLightbox()">›</button>
+    </div>
 </div>
+
+<script>
+const galleryData = [
+    {% for photo in site.data.gallery %}
+    {
+        src: "{{ photo.src }}",
+        thumb: "{{ photo.thumb }}",
+        alt: "{{ photo.alt }}",
+        caption: "{{ photo.caption }}",
+        date: "{{ photo.date }}",
+        location: "{{ photo.location }}",
+        camera: "{{ photo.camera }}",
+        post: "{{ photo.post }}"
+    }{% if forloop.last == false %},{% endif %}
+    {% endfor %}
+];
+
+let currentIndex = 0;
+
+function updateLightboxDisplay() {
+    const photo = galleryData[currentIndex];
+    document.getElementById('lightbox-img').src = photo.src;
+    document.getElementById('lightbox-caption').textContent = photo.caption;
+    document.getElementById('lightbox-details').innerHTML =
+        `<span>${photo.date}</span> · <span>${photo.location}</span> · <span>${photo.camera}</span>`;
+    document.getElementById('lightbox-post-link').href = photo.post;
+}
+
+function openGalleryLightbox(index) {
+    currentIndex = index;
+    updateLightboxDisplay();
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function prevPhotoLightbox() {
+    currentIndex = (currentIndex - 1 + galleryData.length) % galleryData.length;
+    updateLightboxDisplay();
+}
+
+function nextPhotoLightbox() {
+    currentIndex = (currentIndex + 1) % galleryData.length;
+    updateLightboxDisplay();
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'ArrowLeft') prevPhotoLightbox();
+    else if (e.key === 'ArrowRight') nextPhotoLightbox();
+});
+</script>

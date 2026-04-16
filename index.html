@@ -5,68 +5,105 @@ title: Home
 <div class="home">
     <header class="page-header">
         <h1>&lt;Jing Blog/&gt;</h1>
-        <p class="subtitle">// Thoughts, tutorials, and photography</p>
+        <p class="subtitle">// Notes on kernel, projects, DIY, and life</p>
     </header>
 
-    {% if site.data.gallery %}
-    <section class="gallery-section">
-        <h2 class="section-title"><span class="prompt">~/</span> Photography</h2>
-        <div class="gallery-grid">
-            {% for photo in site.data.gallery %}
-            <div class="gallery-item" onclick="openLightbox(this)">
-                <img src="{{ photo.src }}" alt="{{ photo.alt }}" loading="lazy">
-                {% if photo.caption %}
-                <div class="gallery-caption">{{ photo.caption }}</div>
-                {% endif %}
+    <div class="four-windows">
+        <!-- Kernel Window -->
+        <section class="window kernel-window">
+            <div class="window-header">
+                <span class="window-title">[#] kernel</span>
+                <span class="window-count">{{ site.categories.kernel | size }} posts</span>
             </div>
-            {% endfor %}
-        </div>
-        <p class="gallery-more"><a href="/gallery.html">View all photos →</a></p>
-    </section>
-    {% endif %}
+            <div class="window-content">
+                {% for post in site.categories.kernel %}
+                <article class="window-post">
+                    <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
+                    <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
+                </article>
+                {% else %}
+                <p class="window-empty">No posts yet</p>
+                {% endfor %}
+            </div>
+            <a href="/kernel/" class="window-more">view all →</a>
+        </section>
 
-    <section class="posts-section">
-        <h2 class="section-title"><span class="prompt">~/</span> Recent Posts</h2>
-        <div class="post-list">
-            {% for post in paginator.posts %}
-            <article class="post-card">
-                <div class="post-card-meta">
-                    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-                    {% if post.categories %}
-                    <span class="separator">•</span>
-                    {% for cat in post.categories %}
-                        <a href="/category/#{{ cat | slugize }}" class="category-link">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
-                    {% endfor %}
-                    {% endif %}
+        <!-- Projects Window -->
+        <section class="window projects-window">
+            <div class="window-header">
+                <span class="window-title">[~/] projects</span>
+                <span class="window-count">{{ site.categories.projects | size }} posts</span>
+            </div>
+            <div class="window-content">
+                {% for post in site.categories.projects %}
+                <article class="window-post">
+                    <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
+                    <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
+                </article>
+                {% else %}
+                <p class="window-empty">No posts yet</p>
+                {% endfor %}
+            </div>
+            <a href="/projects/" class="window-more">view all →</a>
+        </section>
+
+        <!-- DIY Window -->
+        <section class="window diy-window">
+            <div class="window-header">
+                <span class="window-title">[★] DIY</span>
+                <span class="window-count">{{ site.categories.diy | size }} posts</span>
+            </div>
+            <div class="window-content">
+                {% for post in site.categories.diy %}
+                <article class="window-post">
+                    <span class="window-post-date">{{ post.date | date: "%m/%d" }}</span>
+                    <a href="{{ post.url }}" class="window-post-title">{{ post.title }}</a>
+                </article>
+                {% else %}
+                <p class="window-empty">No posts yet</p>
+                {% endfor %}
+            </div>
+            <a href="/diy/" class="window-more">view all →</a>
+        </section>
+
+        <!-- Gallery Window -->
+        <section class="window gallery-window" id="gallery-section">
+            <div class="window-header">
+                <span class="window-title">[$] gallery</span>
+                <span class="window-count">{{ site.data.gallery | size }} photos</span>
+            </div>
+            <div class="gallery-display">
+                <div class="gallery-current" onclick="openLightbox()">
+                    <img id="gallery-current-img" src="{{ site.data.gallery[0].thumb }}" alt="{{ site.data.gallery[0].alt }}">
+                    <div class="gallery-current-info">
+                        <span id="gallery-current-caption">{{ site.data.gallery[0].caption }}</span>
+                        <span id="gallery-current-location">{{ site.data.gallery[0].location }}</span>
+                    </div>
                 </div>
-                <h2 class="post-card-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-                <div class="post-card-excerpt">
-                    {{ post.content | strip_html | truncatewords: 50 }}
+                <div class="gallery-nav">
+                    <button class="gallery-btn prev" onclick="prevPhoto()">‹</button>
+                    <span class="gallery-counter"><span id="gallery-index">1</span> / {{ site.data.gallery | size }}</span>
+                    <button class="gallery-btn next" onclick="nextPhoto()">›</button>
                 </div>
-                <a href="{{ post.url | relative_url }}" class="read-more">Read more →</a>
-            </article>
-            {% endfor %}
-        </div>
-    </section>
-
-    {% if paginator.total_pages > 1 %}
-    <div class="pagination">
-        {% if paginator.previous_page %}
-            <a href="{{ paginator.previous_page_path }}" class="prev">← Previous</a>
-        {% endif %}
-
-        <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
-
-        {% if paginator.next_page %}
-            <a href="{{ paginator.next_page_path }}" class="next">Next →</a>
-        {% endif %}
+            </div>
+            <a href="/gallery.html" class="window-more">view all →</a>
+        </section>
     </div>
-    {% endif %}
 </div>
 
 <!-- Lightbox Modal -->
 <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-    <span class="lightbox-close">×</span>
-    <img id="lightbox-img" src="" alt="">
-    <div id="lightbox-caption"></div>
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+        <img id="lightbox-img" src="" alt="">
+        <div class="lightbox-info">
+            <h3 id="lightbox-caption"></h3>
+            <p id="lightbox-details"></p>
+            <a id="lightbox-post-link" href="#" class="lightbox-post-link">View related post →</a>
+        </div>
+    </div>
+    <div class="lightbox-nav">
+        <button class="lightbox-nav-btn prev" onclick="prevPhotoLightbox()">‹</button>
+        <button class="lightbox-nav-btn next" onclick="nextPhotoLightbox()">›</button>
+    </div>
 </div>
