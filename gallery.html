@@ -1,0 +1,25 @@
+---
+layout: default
+title: Gallery
+---
+<div class="gallery-page">
+    <h1><span class="prompt">~/</span> Photography</h1>
+    <p class="gallery-desc">A collection of moments captured through my lens.</p>
+    
+    <div class="gallery-grid">
+        {% for photo in site.data.gallery %}
+        <div class="gallery-item" onclick="openLightbox(this)">
+            <img src="{{ photo.src }}" alt="{{ photo.alt }}" loading="lazy">
+            {% if photo.caption %}
+            <div class="gallery-caption">{{ photo.caption }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">×</span>
+    <img id="lightbox-img" src="" alt="">
+    <div id="lightbox-caption"></div>
+</div>

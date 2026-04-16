@@ -1,0 +1,23 @@
+- src: https://picsum.photos/400/300?random=1
+  alt: Morning Light
+  caption: Morning light through the window
+
+- src: https://picsum.photos/400/300?random=2
+  alt: City Skyline
+  caption: City skyline at dusk
+
+- src: https://picsum.photos/400/300?random=3
+  alt: Mountain View
+  caption: Mountain trail
+
+- src: https://picsum.photos/400/300?random=4
+  alt: Ocean Waves
+  caption: Waves at sunset
+
+- src: https://picsum.photos/400/300?random=5
+  alt: Forest Path
+  caption: Quiet forest path
+
+- src: https://picsum.photos/400/300?random=6
+  alt: Night Sky
+  caption: Starry night

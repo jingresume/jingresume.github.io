@@ -4,42 +4,69 @@ title: Home
 ---
 <div class="home">
     <header class="page-header">
-        <h1>My Blog</h1>
-        <p class="subtitle">Thoughts, tutorials, and more</p>
+        <h1>&lt;Jing Blog/&gt;</h1>
+        <p class="subtitle">// Thoughts, tutorials, and photography</p>
     </header>
-    
-    <div class="post-list">
-        {% for post in paginator.posts %}
-        <article class="post-card">
-            <div class="post-card-meta">
-                <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-                {% if post.categories %}
-                <span class="separator">•</span>
-                {% for cat in post.categories %}
-                    <a href="/category/{{ cat }}/" class="category-link">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
-                {% endfor %}
+
+    {% if site.data.gallery %}
+    <section class="gallery-section">
+        <h2 class="section-title"><span class="prompt">~/</span> Photography</h2>
+        <div class="gallery-grid">
+            {% for photo in site.data.gallery %}
+            <div class="gallery-item" onclick="openLightbox(this)">
+                <img src="{{ photo.src }}" alt="{{ photo.alt }}" loading="lazy">
+                {% if photo.caption %}
+                <div class="gallery-caption">{{ photo.caption }}</div>
                 {% endif %}
             </div>
-            <h2 class="post-card-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-            <div class="post-card-excerpt">
-                {{ post.content | strip_html | truncatewords: 50 }}
-            </div>
-            <a href="{{ post.url | relative_url }}" class="read-more">Read more →</a>
-        </article>
-        {% endfor %}
-    </div>
-    
+            {% endfor %}
+        </div>
+        <p class="gallery-more"><a href="/gallery.html">View all photos →</a></p>
+    </section>
+    {% endif %}
+
+    <section class="posts-section">
+        <h2 class="section-title"><span class="prompt">~/</span> Recent Posts</h2>
+        <div class="post-list">
+            {% for post in paginator.posts %}
+            <article class="post-card">
+                <div class="post-card-meta">
+                    <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+                    {% if post.categories %}
+                    <span class="separator">•</span>
+                    {% for cat in post.categories %}
+                        <a href="/category/{{ cat }}/" class="category-link">{{ cat }}</a>{% if forloop.last == false %}, {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <h2 class="post-card-title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+                <div class="post-card-excerpt">
+                    {{ post.content | strip_html | truncatewords: 50 }}
+                </div>
+                <a href="{{ post.url | relative_url }}" class="read-more">Read more →</a>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
     {% if paginator.total_pages > 1 %}
     <div class="pagination">
         {% if paginator.previous_page %}
             <a href="{{ paginator.previous_page_path }}" class="prev">← Previous</a>
         {% endif %}
-        
+
         <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
-        
+
         {% if paginator.next_page %}
             <a href="{{ paginator.next_page_path }}" class="next">Next →</a>
         {% endif %}
     </div>
     {% endif %}
+</div>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">×</span>
+    <img id="lightbox-img" src="" alt="">
+    <div id="lightbox-caption"></div>
 </div>
